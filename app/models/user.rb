@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+  
   belongs_to :plan 
   
   
@@ -11,7 +12,7 @@ class User < ApplicationRecord
      if valid?
        customer = Stripe::Customer.create(description: email, plan: plan_id, card: stripe_card_token)
        self.stripe_customer_token = customer.id
-    save!
-   end 
-end
+       save!
+     end    
+  end
 end 
