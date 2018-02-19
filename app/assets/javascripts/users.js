@@ -5,10 +5,11 @@ $(document).on('turbolinks:load', function() {
   var submitBtn = $('#form-signup-btn');
 
   // Set stripe public key
-  Stripe.setPublishableKey( $('meta[name="stripe-key"]').attr('content'));
+  Stripe.setPublishableKey( $('meta[name="stripe-key"]').attr('content') );
 
   // when user click form submit button prevent default submission
   submitBtn.click(function(event){
+   //prevent default submission behavior
     event.preventDefault();
     submitBtn.val("Processing").prop('disabled', true);
 
@@ -38,6 +39,7 @@ $(document).on('turbolinks:load', function() {
     }
 
     if (error) {
+      // If there are card errors, don't send to Stripe.
       submitBtn.prop('disabled', false).val("Sign Up");
     }
 
@@ -57,7 +59,7 @@ $(document).on('turbolinks:load', function() {
     var token = response.id // get the token from the response
 
     // inject card token as hidden_field_tag
-    theForm.append($('<input type="hidden" name="user[stripe_card_token]">').val(token));
+    theForm.append( $('<input type="hidden" name="user[stripe_card_token]">').val(token) );
 
     // submit form to our rails app
     theForm.get(0).submit();
