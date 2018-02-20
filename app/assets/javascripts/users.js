@@ -22,29 +22,29 @@ $(document).on('turbolinks:load', function() {
     // use stripe js lib to check for errors
 
     var error = false;
-
+     //Validate card number.
     if (!Stripe.card.validateCardNumber(ccNum)) {
       error = true;
-      alert('The credit card number is invalid')
+      alert('The credit card number is invalid');
     }
-    
+    //Validate CVC number.
     if (!Stripe.card.validateCVC(cvcNum)) {
       error = true;
-      alert('The CVC number is invalid')
+      alert('The CVC number is invalid');
     }
-
+    //Validate expiration date.
     if (!Stripe.card.validateExpiry(expMonth, expYear)) {
       error = true;
-      alert('The exp date is invalid')
+      alert('The exp date is invalid');
     }
-
+    
     if (error) {
       // If there are card errors, don't send to Stripe.
       submitBtn.prop('disabled', false).val("Sign Up");
     }
-
+   
     else {
-      // send card info to stripe
+      // send card info to stripe.
       Stripe.createToken({
         number: ccNum,
         cvc: cvcNum,
@@ -56,7 +56,7 @@ $(document).on('turbolinks:load', function() {
   });
   // stripe return back card token
   function stripeResponseHandler(status, response) {
-    var token = response.id // get the token from the response
+    var token = response.id; // get the token from the response
 
     // inject card token as hidden_field_tag
     theForm.append( $('<input type="hidden" name="user[stripe_card_token]">').val(token) );
